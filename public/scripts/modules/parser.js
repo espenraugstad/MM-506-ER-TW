@@ -5,7 +5,8 @@ export function parsePresentation(markdown) {
 }
 
 function parseSlides(content, options){
-    console.log(content, options);
+    console.log(options.theme);
+    
 }
 
 function getGlobalOptions(content) {

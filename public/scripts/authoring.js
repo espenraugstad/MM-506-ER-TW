@@ -5,16 +5,21 @@ import { parsePresentation } from "./modules/parser.js";
 const presentationTitle = document.getElementById("presentation-title");
 const editor = document.getElementById("editor");
 const slidesPreview = document.getElementById('slides-preview');
+const save = document.getElementById('save');
 
 /*** GLOBAL VARIABLES ***/
 let currentPresentation = null;
+let presentationData = null;
 
 /*** EVENT LISTENERS ***/
+save.addEventListener("click", ()=>{
+    presentationData = parsePresentation(editor.value); 
+});
 
 /*** FUNCTIONS ***/
 (async function () {
   await getPresentation();
-  let presentationData = parsePresentation(editor.value);
+  presentationData = parsePresentation(editor.value);
 })();
 
 async function getPresentation() {
