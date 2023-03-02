@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>MM-506-ER</title>
+</head>
+<body>
+    <main class="grid grid-cols-12">
+        <div class="col-span-2 bg-slate-300 h-screen flex flex-col items-center">
+            <div id="user-img" class="w-24 h-24 bg-white mt-4 rounded-full"></div>
+            <div id="username" class="font-semibold mt-2">Username</div>
+            <div class="mt-4">
+                <div class="mt-2 cursor-pointer" id="new">+ New presentation</div>
+                <div class="mt-2 cursor-pointer text-gray-400" id="edit">Edit presentation</div>
+                <div class="mt-2 cursor-pointer text-gray-400" id="run">Run presentation</div>
+                <div class="mt-2 cursor-pointer" id="logout">Log out</div>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-10 items-center">
+            <h1 class="text-4xl font-bold mt-4 mb-8">Presentations</h1>
+            <div class="w-full border-b" id="presentations-list"></div>
+        </div>
+    </main>
+    <script src="./scripts/presenter-dashboard.js" type="module"></script>
+</body>
+</html>

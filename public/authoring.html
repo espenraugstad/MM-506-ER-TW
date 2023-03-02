@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>MM-506-ER</title>
+</head>
+<body>
+    <main class="flex flex-col items-center h-screen">
+        <h1 class="text-4xl font-bold mt-4 cursor-pointer" id="presentation-title" contenteditable="true">Authoring</h1>
+        <p class="mb-8" id="presentation-title-edit">(Click to edit title)</p>
+        <div class="grid gap-4 grid-cols-2 h-full w-full px-10 xl:px-20 2xl:px-40">
+            <textarea class="border resize-none overflow-y-auto font-mono p-1" name="editor" id="editor" cols="30" rows="10"></textarea>
+            <div class="border overflow-y-auto" id="slides-preview"></div>
+        </div>
+        <div class="flex mt-4">
+            <button class="bg-gray-400 m-3 w-40 h-10 flex justify-center items-center p-3 id="save">Save</button>
+            <button class="bg-gray-400 m-3 w-40 h-10 flex justify-center items-center p-3 id="dash">To Dashboard</button>
+            <button class="bg-gray-400 m-3 w-40 h-10 flex justify-center items-center p-3 id="start">Start presentation</button>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./scripts/authoring.js" type="module"></script>
+</body>
+</html>
