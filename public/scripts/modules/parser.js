@@ -1,12 +1,12 @@
 export function parsePresentation(markdown) {
   let parsedContent = marked.parse(markdown).split("<hr>");
   let globalOptions = getGlobalOptions(parsedContent);
-  let slides = parseSlides(parsedContent.slice(1), globalOptions);
+  let slides = parseSlides(parsedContent, globalOptions);
 }
 
 function parseSlides(content, options){
-    console.log(options.theme);
-    
+    let slides = content.slice(1);
+    console.log(slides);
 }
 
 function getGlobalOptions(content) {
