@@ -22,6 +22,8 @@ Slide options must be specified as the first content on a slide. It must also be
 
 |Value | Description|
 |------|------------|
+| ti   | Title slide|
+| tx   | Standard text (default)|
 | il   | Image in left column, text in right|
 | ir   | Image in right column, text in left|
 | io   | Centered image with text overlay|
