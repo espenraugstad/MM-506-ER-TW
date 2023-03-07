@@ -712,6 +712,30 @@ video {
   color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
+.slide{
+  border: 1px solid black;
+  width: 1920px;
+  height: 1080px;
+}
+
+.slide-preview{
+  border: 1px solid black;
+  width: calc(1920px*.5);
+  max-width: calc(1920px*.5);
+  aspect-ratio: 16/9;
+  margin: 1rem 0 calc(-1920px*.5*9/(16*2) + 1rem);
+  transform-origin: top center;
+  transform: scale(0.5, 0.5);
+  overflow: clip;
+}
+
+.slide-basic{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (min-width: 1280px) {
   .xl\:px-20 {
     padding-left: 5rem;
