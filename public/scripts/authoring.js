@@ -38,7 +38,7 @@ function previewPresentation(data){
 
   for(let slide of data.slides){
     let html = parseSlideHtml(slide);
-    console.log(html);
+    //console.log(html);
 
     let slideClone = slideBasicTitle.content.cloneNode(true);
     let textDiv = slideClone.children[0];

@@ -10,7 +10,24 @@ export function parsePresentation(markdown) {
 
 export function parseSlideHtml(slide){
   const type = slide.type;
-  
+
+  switch(type){
+    case "ti":
+      //console.log(slide.content.body);
+      // Style
+      // Get all h1
+      let h1s = slide.content.body.querySelectorAll("h1");
+      for(let h1 of h1s){
+        h1.className = "text-6xl text-bold"
+      }
+      console.log(h1s);
+      break;
+    default:
+      break;
+
+  }
+
+
   // For now, just re-serialize the dom
   const ser = new XMLSerializer();
   let content = ser.serializeToString(slide.content);
