@@ -18,7 +18,7 @@
       </h1>
       <p class="mb-8" id="presentation-title-edit">(Click to edit title)</p>
       <div
-        class="grid gap-4 grid-cols-2 h-full w-full px-10 xl:px-20 2xl:px-40"
+        class="grid gap-4 grid-cols-2 h-3/4 w-full px-10 xl:px-20 2xl:px-40"
       >
         <textarea
           class="border resize-none overflow-y-auto font-mono p-1"
@@ -27,7 +27,8 @@
           cols="30"
           rows="10"
         ></textarea>
-        <div class="border overflow-y-auto flex flex-col items-center" id="slides-preview"></div>
+        <div class="border overflow-y-auto overflow-x-clip flex flex-col shrink-0 items-center" ><div id="slides-preview"></div></div>
+       <!--  <div id="slides-preview" class="border grid grid-flow-row justify-center"></div> -->
       </div>
       <div class="flex mt-4">
         <button

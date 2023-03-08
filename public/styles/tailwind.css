@@ -2,26 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+    --slide-margin-bottom: calc(16px - 1920px * .5 * 9 / (16 * 2) );
+}
+
 .slide{
     border: 1px solid black;
     width: 1920px;
     height: 1080px;
 }
 
+#slides-preview{
+    transform-origin: top center;
+    scale: 0.3;
+}
+
 .slide-preview{
     border: 1px solid black;
-    width: calc(1920px*.5);
-    max-width: calc(1920px*.5);
-    aspect-ratio: 16/9;
-    margin: 1rem 0 calc(-1920px*.5*9/(16*2) + 1rem);
-    transform-origin: top center;
-    transform: scale(0.5, 0.5);
+    width: 1920px;
+    max-width: 1920px;
+    /* aspect-ratio: 16/9; */
+    height: 1080px;
+    max-height: 1080px;
+    margin: 1rem 0;
+    /* margin: 1rem 0 -254px */;
+   /*  transform-origin: top left;
+    transform: scale(0.5, 0.5); */
+    
     overflow: clip;
 }
+
+
 
 .slide-basic{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
