@@ -18,7 +18,7 @@ export function parseSlideHtml(slide){
       // Get all h1
       let h1s = slide.content.body.querySelectorAll("h1");
       for(let h1 of h1s){
-        h1.className = "text-6xl text-bold"
+        h1.className = "text-4xl text-bold"
       }
       console.log(h1s);
       break;

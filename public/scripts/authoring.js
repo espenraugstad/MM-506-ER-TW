@@ -29,6 +29,7 @@ save.addEventListener("click", ()=>{
 (async function () {
   await getPresentation();
   let presentationData = parsePresentation(editor.value);
+  previewPresentation(presentationData);
 })();
 
 function previewPresentation(data){
