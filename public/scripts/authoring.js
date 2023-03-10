@@ -20,17 +20,24 @@ let currentPresentation = null;
 //let presentationData = null;
 
 /*** EVENT LISTENERS ***/
+editor.addEventListener("input", ()=>{
+  updatePresentation();
+});
+
 save.addEventListener("click", ()=>{
-    let presentationData = parsePresentation(editor.value); 
-    previewPresentation(presentationData);
+    updatePresentation();
 });
 
 /*** FUNCTIONS ***/
 (async function () {
   await getPresentation();
+  updatePresentation();
+})();
+
+function updatePresentation(){
   let presentationData = parsePresentation(editor.value);
   previewPresentation(presentationData);
-})();
+}
 
 function previewPresentation(data){
   slidesPreview.innerHTML = "";
