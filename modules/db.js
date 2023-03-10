@@ -38,6 +38,19 @@ class Db {
     let found = presentations.filter((el) => el.presentation_id === parseInt(pid) && el.owner_id === parseInt(uid));
     return found;
   }
+
+  async savePresentation(currentPresentation){
+    let db = await this.getDatabase();
+
+    // Loop through presentations
+    for(let pres of db.presentations){
+      
+      if(pres.presentation_id === currentPresentation.presentation_id){
+        console.log(pres);
+      }
+    }
+    //console.log(db);
+  }
 }
 
 module.exports = Db;

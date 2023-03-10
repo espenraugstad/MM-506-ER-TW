@@ -24,8 +24,9 @@ editor.addEventListener("input", ()=>{
   updatePresentation();
 });
 
-save.addEventListener("click", ()=>{
+save.addEventListener("click", async ()=>{
     updatePresentation();
+    await savePresentation();
 });
 
 /*** FUNCTIONS ***/
@@ -33,6 +34,19 @@ save.addEventListener("click", ()=>{
   await getPresentation();
   updatePresentation();
 })();
+
+async function savePresentation(){
+  let url = new URLSearchParams(location.search);
+  let pid = url.get("pid");
+  let uid = localStorage.getItem("user_id");
+  let idtoken = window.btoa(`${pid}:${uid}`);
+
+  currentPresentation.markdown = editor.value;
+
+  console.log(currentPresentation);
+  let presentationSaved = await fetch(`/savePresentation/${idtoken}`, new Config("post",currentPresentation, localStorage.getItem("sillytoken")).cfg);
+
+}
 
 function updatePresentation(){
   let presentationData = parsePresentation(editor.value);

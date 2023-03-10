@@ -11,7 +11,7 @@ const db = new Storage();
 /*** MIDDLEWARE ***/
 async function checkUser(req, res, next) {
   let user, pass, role;
-  if (JSON.stringify(req.body) !== "{}") {
+  if (req.body.user) {
     user = req.body.username;
     pass = req.body.password;
     role = req.body.role;
@@ -75,6 +75,13 @@ server.get("/getPresentation/:idtoken", checkUser, async (req, res) =>{
     }
   } else {''
     res.status(403).json({message: "Invalid user"}).end();
+  }
+});
+
+server.post("/savePresentation/:idtoken", checkUser, async (req, res, next) =>{
+  if(req.exists){
+    const presentation = req.body;
+    let saved = await db.savePresentation(presentation);
   }
 });
 
