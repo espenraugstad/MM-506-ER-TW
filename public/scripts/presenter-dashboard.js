@@ -103,10 +103,20 @@ function listPresentations() {
       }
     });
 
-    deleteDiv.addEventListener("click", () => {
+    deleteDiv.addEventListener("click", async () => {
       console.log(
         `Deleting presentation ${p.presentation_title} with id ${p.presentation_id}`
       );
+
+      let deleted = await fetch("/deletePresentation", new Config("post", {presentation_id: p.presentation_id}, localStorage.getItem("sillytoken")).cfg);
+      if(deleted.status === 200){ 
+        setTimeout(()=>{
+          location.reload();
+        }, 1000);
+        
+      } else {
+        console.log(deleted.status);
+      }
     });
 
     presentationsList.appendChild(presentationDiv);

@@ -107,6 +107,20 @@ server.post("/createPresentation", checkUser, async (req, res) =>{
   }
 });
 
+server.post("/deletePresentation", checkUser, async (req, res) =>{
+  if(req.exists){
+    let deleted = await db.deletePresentation(parseInt(req.body.presentation_id));
+    if(deleted){
+      res.status(200).end();
+    } else {
+      res.status(500).end();
+    }
+    
+  } else {
+    res.status(403).end();
+  }
+});
+
 server.listen(PORT, () => {
   console.log(`Listening to ${PORT}`);
 });

@@ -1,6 +1,9 @@
 # MM-506-ER-TW
 Based on version 2 of MM-506-ER, but using Tailwind CSS.
 
+# Known issues/todos
+* Deleting a presentation does not give a warning of require confirmation. There is also a built in one second delay before the dashboard is reloaded.
+
 # How to create a presentation
 Every presentation starts with a "slide" containing global options. This slide is not displayed in the preview or in the presentation. Every subsequent slide need to specify a type.
 

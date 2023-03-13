@@ -103,6 +103,19 @@ class Db {
       return -1;
     }
   }
+
+  async deletePresentation(presentation_id){
+    let db = await this.getDatabase();
+    //console.log(presentation_id);
+    //console.log(db);
+
+    db.presentations = db.presentations.filter((pres) => {
+      return parseInt(pres.presentation_id) !== parseInt(presentation_id);
+    });
+
+    let written = await this.writeDatabase(db);
+    return written;
+  }
 }
 
 module.exports = Db;
