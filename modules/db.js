@@ -12,6 +12,18 @@ class Db {
     }
   }
 
+  async writeDatabase(db) {
+    try{
+      fs.writeFileSync("./presentations.json", JSON.stringify(db));
+      return true;
+    } catch (err){
+      console.log("Error writing to database");
+      console.log(err);
+      return false;
+    }
+    
+  }
+
   async checkUser(username, password, role) {
     let db = await this.getDatabase();
     let users = db.users;
@@ -24,7 +36,7 @@ class Db {
 
   async getPresentations(id) {
     let db = await this.getDatabase();
-    let presentations = db.presentations; 
+    let presentations = db.presentations;
     let found = presentations.filter((el) => el.owner_id === id);
     return found;
   }
@@ -35,21 +47,31 @@ class Db {
 
     let db = await this.getDatabase();
     let presentations = db.presentations;
-    let found = presentations.filter((el) => el.presentation_id === parseInt(pid) && el.owner_id === parseInt(uid));
+    let found = presentations.filter(
+      (el) =>
+        el.presentation_id === parseInt(pid) && el.owner_id === parseInt(uid)
+    );
     return found;
   }
 
-  async savePresentation(currentPresentation){
+  async savePresentation(currentPresentation) {
     let db = await this.getDatabase();
-
     // Loop through presentations
-    for(let pres of db.presentations){
-      
-      if(pres.presentation_id === currentPresentation.presentation_id){
-        console.log(pres);
+    for (let presIndex in db.presentations) {
+      if (
+        db.presentations[presIndex].presentation_id ===
+        currentPresentation.presentation_id
+      ) {
+        db.presentations[presIndex] = currentPresentation;
+        break;
       }
     }
-    //console.log(db);
+
+    // Write the new database
+    console.log("Saving");
+    let saved = await this.writeDatabase(db);
+    console.log("Saved", saved);
+    return saved;
   }
 }
 
