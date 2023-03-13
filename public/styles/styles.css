@@ -549,6 +549,10 @@ video {
   margin-top: 1rem;
 }
 
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .flex {
   display: flex;
 }
@@ -661,6 +665,11 @@ video {
   border-top-width: 1px;
 }
 
+.border-slate-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(30 41 59 / var(--tw-border-opacity));
+}
+
 .bg-gray-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
@@ -702,6 +711,11 @@ video {
   line-height: 2.5rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -723,6 +737,23 @@ video {
 :root{
   --slide-margin-bottom: calc(16px - 1920px * .5 * 9 / (16 * 2) );
   --preview-scale: 0.3;
+}
+
+button {
+  margin: 0.75rem;
+  display: flex;
+  height: 2.5rem;
+  width: 10rem;
+  align-items: center;
+  justify-content: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+  padding: 0.75rem;
+}
+
+dialog::backdrop{
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
 }
 
 .slide{

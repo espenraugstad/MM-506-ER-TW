@@ -83,6 +83,13 @@ server.post("/savePresentation/:idtoken", checkUser, async (req, res, next) =>{
     const presentation = req.body;
     let saved = await db.savePresentation(presentation);
     console.log(saved);
+    if(saved){
+      res.status(200).end();
+    } else {
+      res.status(500).end();
+    }
+  } else {
+    res.status(403).end();
   }
 });
 

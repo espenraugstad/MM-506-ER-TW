@@ -6,6 +6,10 @@ const presentationTitle = document.getElementById("presentation-title");
 const editor = document.getElementById("editor");
 const slidesPreview = document.getElementById('slides-preview');
 const save = document.getElementById('save');
+// Dialogs
+const savedMessage = document.getElementById('savedMessage');
+const saved = document.getElementById('saved');
+const savedResultBtn = document.getElementById('savedResultBtn');
 
 // Slide templates basic
 const slideBasicTitle = document.getElementById('slide-basic-title');
@@ -29,6 +33,10 @@ save.addEventListener("click", async ()=>{
     await savePresentation();
 });
 
+savedResultBtn.addEventListener("click", ()=>{
+  saved.close();
+});
+
 /*** FUNCTIONS ***/
 (async function () {
   await getPresentation();
@@ -43,8 +51,18 @@ async function savePresentation(){
 
   currentPresentation.markdown = editor.value;
 
-  console.log(currentPresentation);
   let presentationSaved = await fetch(`/savePresentation/${idtoken}`, new Config("post",currentPresentation, localStorage.getItem("sillytoken")).cfg);
+  let test = true;
+  if(presentationSaved.status === 200){
+    savedMessage.textContent = "Presentation saved successfully";
+    saved.showModal();
+  }  else if (presentationSaved.status === 403){
+    savedMessage.textContent = "Access to database denied!";
+    saved.showModal();
+  } else {
+    savedMessage.textContent = "An error occured while saving the presentation";
+    saved.showModal();
+  }
 
 }
 

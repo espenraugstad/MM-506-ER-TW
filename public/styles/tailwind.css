@@ -7,6 +7,16 @@
     --preview-scale: 0.3;
 }
 
+button{
+    @apply bg-gray-400 m-3 w-40 h-10 flex justify-center items-center p-3;
+}
+
+
+
+dialog::backdrop{
+    backdrop-filter: blur(8px);
+}
+
 .slide{
     border: 1px solid black;
     width: 1920px;

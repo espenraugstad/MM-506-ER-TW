@@ -20,7 +20,6 @@ export function parseSlideHtml(slide){
       for(let h1 of h1s){
         h1.className = "text-4xl text-bold"
       }
-      console.log(h1s);
       break;
     default:
       break;
