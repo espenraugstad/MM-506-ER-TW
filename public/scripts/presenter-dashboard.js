@@ -13,8 +13,17 @@ let presentations = [];
 let selectedPresentationId = -1;
 
 /*** EVENT LISTENERS ***/
-newPresentation.addEventListener("click", () => {
-  location.href = "authoring.html";
+newPresentation.addEventListener("click", async () => {
+  //location.href = "authoring.html";
+  let result = await fetch("/createPresentation", new Config("post", {user_id: localStorage.getItem("user_id")}, localStorage.getItem("sillytoken")).cfg);
+  if(result.status === 200){
+    let data = await result.json();
+    location.href = `authoring.html?pid=${data.new_id}`;
+  } else {
+    console.log("An error occurred");
+  }
+
+
 });
 
 edit.addEventListener("click", ()=>{
@@ -29,7 +38,7 @@ logout.addEventListener("click", () => {
 });
 
 /*** FUNCTIONS ***/
-(async function () {
+window.onload = async function () {
   username.innerHTML = localStorage.getItem("user_name");
 
   // Retrieve presentations
@@ -45,7 +54,7 @@ logout.addEventListener("click", () => {
   } else {
     console.log(`An error occurred, status ${getPresentations.status}`);
   }
-})();
+}
 
 function listPresentations() {
   presentationsList.innerHTML = "";

@@ -93,6 +93,20 @@ server.post("/savePresentation/:idtoken", checkUser, async (req, res, next) =>{
   }
 });
 
+server.post("/createPresentation", checkUser, async (req, res) =>{
+  if(req.exists){
+    let new_id = await db.createPresentation(parseInt(req.body.user_id));
+    if(new_id === -1){
+      res.status(500).end();
+    } else {
+      res.status(200).json({new_id: new_id}).end();
+    }
+    
+  } else {
+    res.status(403).end();
+  }
+});
+
 server.listen(PORT, () => {
   console.log(`Listening to ${PORT}`);
 });

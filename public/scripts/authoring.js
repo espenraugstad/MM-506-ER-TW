@@ -29,6 +29,10 @@ let isSaved = true;
 //let presentationData = null;
 
 /*** EVENT LISTENERS ***/
+presentationTitle.addEventListener("input", ()=>{
+  isSaved = false;
+});
+
 editor.addEventListener("input", ()=>{
   isSaved = false;
   updatePresentation();
@@ -81,10 +85,11 @@ savedResultBtn.addEventListener("click", ()=>{
 });
 
 /*** FUNCTIONS ***/
-(async function () {
+window.onload = async function () {
   await getPresentation();
   updatePresentation();
-})();
+  console.log(presentationTitle.textContent);
+}
 
 async function savePresentation(){
   let url = new URLSearchParams(location.search);
@@ -92,11 +97,13 @@ async function savePresentation(){
   let uid = localStorage.getItem("user_id");
   let idtoken = window.btoa(`${pid}:${uid}`);
 
+  // Get the necessary info
+  currentPresentation.presentation_title = presentationTitle.textContent
   currentPresentation.markdown = editor.value;
+  
 
   let presentationSaved = await fetch(`/savePresentation/${idtoken}`, new Config("post",currentPresentation, localStorage.getItem("sillytoken")).cfg);
   return presentationSaved.status;
-  
 
 }
 

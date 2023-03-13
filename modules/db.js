@@ -70,8 +70,38 @@ class Db {
     // Write the new database
     console.log("Saving");
     let saved = await this.writeDatabase(db);
-    console.log("Saved", saved);
     return saved;
+  }
+
+  async createPresentation(user_id){
+    let db = await this.getDatabase();
+    //console.log(db);
+
+    // Get the highest presentation id
+    let highestId = 0;
+    for(let p of db.presentations){
+      if(p.presentation_id > highestId){
+        highestId = p.presentation_id;
+      }
+    }
+
+    let newPresentation = {
+      presentation_id: highestId + 1,
+      presentation_title: "Untitled presentation",
+      owner_id: user_id,
+      markdown: "[theme: ]",
+      slides: [],
+      hasAccess: []
+    }
+
+    db.presentations.push(newPresentation);
+
+    let successfullyWritten = await this.writeDatabase(db);
+    if(successfullyWritten){
+      return highestId + 1;
+    } else {
+      return -1;
+    }
   }
 }
 
