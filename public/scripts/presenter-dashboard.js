@@ -32,6 +32,11 @@ edit.addEventListener("click", ()=>{
   }
 });
 
+run.addEventListener("click", ()=>{
+  console.log(`Running ${selectedPresentationId}`);
+  location.href = `presenter-view.html?pid=${selectedPresentationId}`;
+});
+
 logout.addEventListener("click", () => {
   localStorage.clear();
   location.href = "index.html";

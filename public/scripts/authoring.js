@@ -4,58 +4,64 @@ import { parsePresentation, parseSlideHtml } from "./modules/parser.js";
 /*** HTML ELEMENTS ***/
 const presentationTitle = document.getElementById("presentation-title");
 const editor = document.getElementById("editor");
-const slidesPreview = document.getElementById('slides-preview');
-const save = document.getElementById('save');
-const dash = document.getElementById('dash');
+const slidesPreview = document.getElementById("slides-preview");
+const save = document.getElementById("save");
+const dash = document.getElementById("dash");
+const start = document.getElementById("start");
 // Dialogs
-const savedMessage = document.getElementById('savedMessage');
-const saved = document.getElementById('saved');
-const savedResultBtn = document.getElementById('savedResultBtn');
-const unsaved = document.getElementById('unsaved');
-const doSave = document.getElementById('doSave');
-const doNotSave = document.getElementById('doNotSave');
+const savedMessage = document.getElementById("savedMessage");
+const saved = document.getElementById("saved");
+const savedResultBtn = document.getElementById("savedResultBtn");
+const unsaved = document.getElementById("unsaved");
+const doSave = document.getElementById("doSave");
+const doNotSave = document.getElementById("doNotSave");
 
 // Slide templates basic
-const slideBasicTitle = document.getElementById('slide-basic-title');
-const slideBasicText = document.getElementById('slide-basic-text');
-const slideBasicImageOverlay = document.getElementById('slide-basic-image--overlay');
-const slideBasicImageLeft = document.getElementById('slide-basic-image--left');
-const slideBasicImageRight = document.getElementById('slide-basic-image--right');
-
+const slideBasicTitle = document.getElementById("slide-basic-title");
+const slideBasicText = document.getElementById("slide-basic-text");
+const slideBasicImageOverlay = document.getElementById(
+  "slide-basic-image--overlay"
+);
+const slideBasicImageLeft = document.getElementById("slide-basic-image--left");
+const slideBasicImageRight = document.getElementById(
+  "slide-basic-image--right"
+);
 
 /*** GLOBAL VARIABLES ***/
 let currentPresentation = null;
 let isSaved = true;
+let goNext = "";
 //let presentationData = null;
 
 /*** EVENT LISTENERS ***/
-presentationTitle.addEventListener("input", ()=>{
+presentationTitle.addEventListener("input", () => {
   isSaved = false;
 });
 
-editor.addEventListener("input", ()=>{
+editor.addEventListener("input", () => {
   isSaved = false;
   updatePresentation();
 });
 
-save.addEventListener("click", async ()=>{
-    updatePresentation();
-    let savedStatus = await savePresentation();
-    if(savedStatus === 200){
-      savedMessage.textContent = "Presentation saved successfully";
-      isSaved = true;
-      saved.showModal();
-    }  else if (savedStatus === 403){
-      savedMessage.textContent = "Access to database denied!";
-      saved.showModal();
-    } else {
-      savedMessage.textContent = "An error occured while saving the presentation";
-      saved.showModal();
-    }
+save.addEventListener("click", async () => {
+  updatePresentation();
+  let savedStatus = await savePresentation();
+  if (savedStatus === 200) {
+    savedMessage.textContent = "Presentation saved successfully";
+    isSaved = true;
+    saved.showModal();
+  } else if (savedStatus === 403) {
+    savedMessage.textContent = "Access to database denied!";
+    saved.showModal();
+  } else {
+    savedMessage.textContent = "An error occured while saving the presentation";
+    saved.showModal();
+  }
 });
 
-dash.addEventListener("click", ()=>{
-  if(isSaved){
+dash.addEventListener("click", () => {
+  goNext = "dash";
+  if (isSaved) {
     location.href = "presenter-dashboard.html";
   } else {
     // Show dialog to save presentation
@@ -63,24 +69,50 @@ dash.addEventListener("click", ()=>{
   }
 });
 
-doSave.addEventListener("click", async ()=>{
+start.addEventListener("click", () => {
+  goNext = "run";
+  let url = new URLSearchParams(location.search);
+  let pid = url.get("pid");
+  if (isSaved) {
+    location.href = `presenter-view.html?pid=${pid}`;
+  } else {
+    unsaved.showModal();
+  }
+});
+
+doSave.addEventListener("click", async () => {
   let savedStatus = await savePresentation();
   unsaved.close();
-  if(savedStatus === 200){
-    location.href = "presenter-dashboard.html";
+  if (savedStatus === 200) {
+    if (goNext === "dash") {
+      location.href = "presenter-dashboard.html";
+    } else if (goNext === "run") {
+      let url = new URLSearchParams(location.search);
+      let pid = url.get("pid");
+      location.href = `presenter-view.html?pid=${pid}`;
+    } else {
+      console.log("Error");
+    }
   } else {
     savedMessage.textContent = savedStatus;
     saved.showModal();
   }
-  
 });
 
-doNotSave.addEventListener("click", ()=>{
+doNotSave.addEventListener("click", () => {
   unsaved.close();
-  location.href = "presenter-dashboard.html";
+  if (goNext === "dash") {
+    location.href = "presenter-dashboard.html";
+  } else if (goNext === "run") {
+    let url = new URLSearchParams(location.search);
+    let pid = url.get("pid");
+    location.href = `presenter-view.html?pid=${pid}`;
+  } else {
+    console.log("Error");
+  }
 });
 
-savedResultBtn.addEventListener("click", ()=>{
+savedResultBtn.addEventListener("click", () => {
   saved.close();
 });
 
@@ -89,35 +121,37 @@ window.onload = async function () {
   await getPresentation();
   updatePresentation();
   console.log(presentationTitle.textContent);
-}
+};
 
-async function savePresentation(){
+async function savePresentation() {
   let url = new URLSearchParams(location.search);
   let pid = url.get("pid");
   let uid = localStorage.getItem("user_id");
   let idtoken = window.btoa(`${pid}:${uid}`);
 
   // Get the necessary info
-  currentPresentation.presentation_title = presentationTitle.textContent
+  currentPresentation.presentation_title = presentationTitle.textContent;
   currentPresentation.markdown = editor.value;
-  
 
-  let presentationSaved = await fetch(`/savePresentation/${idtoken}`, new Config("post",currentPresentation, localStorage.getItem("sillytoken")).cfg);
+  let presentationSaved = await fetch(
+    `/savePresentation/${idtoken}`,
+    new Config("post", currentPresentation, localStorage.getItem("sillytoken"))
+      .cfg
+  );
   return presentationSaved.status;
-
 }
 
-function updatePresentation(){
+function updatePresentation() {
   let presentationData = parsePresentation(editor.value);
   previewPresentation(presentationData);
 }
 
-function previewPresentation(data){
+function previewPresentation(data) {
   slidesPreview.innerHTML = "";
   const theme = data.options.theme;
   //console.log(theme);
 
-  for(let slide of data.slides){
+  for (let slide of data.slides) {
     let html = parseSlideHtml(slide);
     //console.log(html);
 
@@ -130,9 +164,7 @@ function previewPresentation(data){
       case "ti":
 
     } */
-
   }
-
 }
 
 async function getPresentation() {
@@ -154,5 +186,4 @@ async function getPresentation() {
   } else {
     console.log(currentPresentation.message);
   }
-
 }
