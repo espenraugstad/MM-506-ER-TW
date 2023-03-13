@@ -6,10 +6,14 @@ const presentationTitle = document.getElementById("presentation-title");
 const editor = document.getElementById("editor");
 const slidesPreview = document.getElementById('slides-preview');
 const save = document.getElementById('save');
+const dash = document.getElementById('dash');
 // Dialogs
 const savedMessage = document.getElementById('savedMessage');
 const saved = document.getElementById('saved');
 const savedResultBtn = document.getElementById('savedResultBtn');
+const unsaved = document.getElementById('unsaved');
+const doSave = document.getElementById('doSave');
+const doNotSave = document.getElementById('doNotSave');
 
 // Slide templates basic
 const slideBasicTitle = document.getElementById('slide-basic-title');
@@ -21,16 +25,55 @@ const slideBasicImageRight = document.getElementById('slide-basic-image--right')
 
 /*** GLOBAL VARIABLES ***/
 let currentPresentation = null;
+let isSaved = true;
 //let presentationData = null;
 
 /*** EVENT LISTENERS ***/
 editor.addEventListener("input", ()=>{
+  isSaved = false;
   updatePresentation();
 });
 
 save.addEventListener("click", async ()=>{
     updatePresentation();
-    await savePresentation();
+    let savedStatus = await savePresentation();
+    if(savedStatus === 200){
+      savedMessage.textContent = "Presentation saved successfully";
+      isSaved = true;
+      saved.showModal();
+    }  else if (savedStatus === 403){
+      savedMessage.textContent = "Access to database denied!";
+      saved.showModal();
+    } else {
+      savedMessage.textContent = "An error occured while saving the presentation";
+      saved.showModal();
+    }
+});
+
+dash.addEventListener("click", ()=>{
+  if(isSaved){
+    location.href = "presenter-dashboard.html";
+  } else {
+    // Show dialog to save presentation
+    unsaved.showModal();
+  }
+});
+
+doSave.addEventListener("click", async ()=>{
+  let savedStatus = await savePresentation();
+  unsaved.close();
+  if(savedStatus === 200){
+    location.href = "presenter-dashboard.html";
+  } else {
+    savedMessage.textContent = savedStatus;
+    saved.showModal();
+  }
+  
+});
+
+doNotSave.addEventListener("click", ()=>{
+  unsaved.close();
+  location.href = "presenter-dashboard.html";
 });
 
 savedResultBtn.addEventListener("click", ()=>{
@@ -52,17 +95,8 @@ async function savePresentation(){
   currentPresentation.markdown = editor.value;
 
   let presentationSaved = await fetch(`/savePresentation/${idtoken}`, new Config("post",currentPresentation, localStorage.getItem("sillytoken")).cfg);
-  let test = true;
-  if(presentationSaved.status === 200){
-    savedMessage.textContent = "Presentation saved successfully";
-    saved.showModal();
-  }  else if (presentationSaved.status === 403){
-    savedMessage.textContent = "Access to database denied!";
-    saved.showModal();
-  } else {
-    savedMessage.textContent = "An error occured while saving the presentation";
-    saved.showModal();
-  }
+  return presentationSaved.status;
+  
 
 }
 
@@ -74,7 +108,7 @@ function updatePresentation(){
 function previewPresentation(data){
   slidesPreview.innerHTML = "";
   const theme = data.options.theme;
-  console.log(theme);
+  //console.log(theme);
 
   for(let slide of data.slides){
     let html = parseSlideHtml(slide);
