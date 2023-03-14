@@ -4,9 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
     <title>MM-506-ER</title>
 </head>
 <body>
-    <h1>Presenter View</h1>
+    <main class="flex flex-col items-center h-screen mt-8">
+        <h1 id="presentation-title" class="text-4xl font-bold m-4">Presentation title</h1>
+        <div id="presentation-key" class="mb-4">(Key)</div>
+        <div class="w-screen flex justify-between">
+            <div id="slide-preview" class="ml-4 mt-4 flex-shrink-0 w-min-[576px] w-[576px] h-[324px] bg-slate-300"></div>
+            <div id="slide-notes" class="flex-shrink-1 h-[324px] w-full m-4 bg-red-300"></div>
+        </div>
+        <div class="m-8 flex w-96 justify-between items-center">
+            <div id="previous" class="flex justify-center items-center text-2xl w-12 h-12 bg-gray-400">&LeftAngleBracket;</div>
+            <button id="exit">Exit</button>
+            <div id="next" class="flex justify-center items-center text-2xl w-12 h-12 bg-gray-400">&RightAngleBracket;</div>
+        </div>
+        <div class="m-8 flex">
+            <div id="slide-preview-previous" class="w-[240px] h-[135px] bg-slate-300 m-4"></div>
+            <div id="slide-preview-current" class="w-[240px] h-[135px] bg-slate-300 m-4"></div>
+            <div id="slide-preview-next" class="w-[240px] h-[135px] bg-slate-300 m-4"></div>
+        </div>
+    </main>
+    
 </body>
 </html>

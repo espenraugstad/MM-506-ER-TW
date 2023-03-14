@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+    
 :root{
     --slide-margin-bottom: calc(16px - 1920px * .5 * 9 / (16 * 2) );
     --preview-scale: 0.3;
