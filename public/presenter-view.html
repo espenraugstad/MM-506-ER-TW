@@ -27,5 +27,19 @@
         </div>
     </main>
     
+    <!-- DIALOGS -->
+    <dialog id="exitDialog" class="border border-slate-800">
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl text-bold m-4">Exit presentation</h2>
+            <p class="m-4">Are you sure you want to stop the presentation and return to the dashboard?</p>
+            <div class="flex justify-between m-4">
+                <button id="cancelBtn">Cancel</button>
+                <button id="exitBtn">Exit</button>
+            </div>
+        </div>
+    </dialog>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./scripts/presenter-view.js" type="module"></script>
 </body>
 </html>
